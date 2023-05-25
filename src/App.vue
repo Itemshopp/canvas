@@ -131,16 +131,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PS6P0GB6J"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-3PS6P0GB6J');
-    </script> -->
 </template>
 
 <script setup></script>
