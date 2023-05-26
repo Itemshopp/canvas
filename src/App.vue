@@ -55,21 +55,25 @@
                         73.6% 51.7%
                     );
                 "
-            ></div>
+            />
         </div>
         <div
-            class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40"
+            class="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-40 lg:flex lg:px-8 lg:pt-40"
         >
             <div
                 class="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8"
             >
                 <img
                     class="h-11"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&amp;shade=500"
                     alt="Your Company"
                 />
                 <div class="mt-24 sm:mt-32 lg:mt-16">
-                    <a href="#" class="inline-flex space-x-6">
+                    <a
+                        v-if="release"
+                        :href="release.html_url"
+                        class="inline-flex space-x-6"
+                    >
                         <span
                             class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
                             >What's new</span
@@ -77,19 +81,11 @@
                         <span
                             class="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-gray-300"
                         >
-                            <span>Just shipped v1.0</span>
-                            <svg
+                            <span>Just shipped {{ release.tag_name }}</span>
+                            <ChevronRightIcon
                                 class="h-5 w-5 text-gray-500"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
                                 aria-hidden="true"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
+                            />
                         </span>
                     </a>
                 </div>
@@ -112,7 +108,7 @@
                     <a
                         href="#"
                         class="text-sm font-semibold leading-6 text-white"
-                        >Learn more <span aria-hidden="true">→</span></a
+                        >Live demo <span aria-hidden="true">→</span></a
                     >
                 </div>
             </div>
@@ -133,4 +129,17 @@
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, watchEffect } from 'vue'
+import { ChevronRightIcon } from '@heroicons/vue/20/solid'
+
+const release = ref(null)
+
+watchEffect(async () => {
+    release.value = await (
+        await fetch(
+            'https://api.github.com/repos/austintoddj/canvas/releases/latest'
+        )
+    ).json()
+})
+</script>
